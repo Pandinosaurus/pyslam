@@ -7,8 +7,8 @@
   - [Install steps](#install-steps)
   - [Notes about macOS](#notes-about-macos)
     - [Install homebrew](#install-homebrew)
-    - [Issues found with dynamic matlplotlib](#issues-found-with-dynamic-matlplotlib)
     - [Issues found with OpenCV and pyenv](#issues-found-with-opencv-and-pyenv)
+    - [Issues found with boost serialization](#issues-found-with-boost-serialization)
 
 <!-- /TOC -->
 
@@ -37,12 +37,10 @@ Please, follow these install steps:
 5. in order to run `main_vo.py` run 
    ```bash
    $ . pyenv-activate.sh   # Activate pyslam environment. This is just needed once in a new terminal.
-   $ OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES ./main_vo.py  # Deprecated: Not needed anymore. 
    ```
 6. in order to run `main_slam.py` run 
    ```bash
    $ . pyenv-activate.sh   # Activate pyslam environment. This is just needed once in a new terminal. 
-   $ OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES ./main_slam.py  # Deprecated: Not needed anymore. 
    ```
 
 **NOTE 1**: the above procedure will install a virtual python environment `pyslam` in your system. That virtual environment can be easily activated by using the command: 
@@ -52,12 +50,12 @@ $ . pyenv-activate.sh
 (do not forget the dot! without '/' ! )
 You can find further details about python virtual environments [here](./PYTHON-VIRTUAL-ENVS.md).
 
-**NOTE 2**: the launch scripts `./scripts/launch_main_xxx.sh ` will automatically activate the `pyslam` virtual enviroment for you and launch the scripts with the necessary environment variable setting (explained below):
+<!-- **NOTE 2**: the launch scripts `./scripts/launch_main_xxx.sh ` will automatically activate the `pyslam` virtual enviroment for you and launch the scripts with the necessary environment variable setting (explained below):
 ```bash
 $ OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python3 main_xxx.py  # Deprecated: Not needed anymore. 
 ```
 
- **NOTE 3**: In order to make things running under macOS, I had to use some tricks (for matplotlib processes in particular, further details below). Please, consider that pyslam has been designed under Linux (Ubuntu 18.04), where you can get it in its 'best shape'. 
+ **NOTE 3**: In order to make things running under macOS, I had to use some tricks (for matplotlib processes in particular, further details below). Please, consider that pyslam has been designed under Linux (Ubuntu 18.04), where you can get it in its 'best shape'.  -->
 
 ## Notes about macOS 
 
@@ -73,8 +71,20 @@ You may also need to install gcc by using XCode Command Line Tools. Run
 $ xcode-select --install
 ```
 
+### Issues found with OpenCV and pyenv 
 
-### Issues found with dynamic matlplotlib 
+When you launch one of the scripts above, you get a warning: 
+```bash
+objc[6169]: Class CaptureDelegate is implemented in both /Users/luigi/.python/venvs/pyslam/lib/python3.7/site-packages/cv2/cv2.cpython-37m-darwin.so (0x11923d590) and /usr/local/opt/opencv/lib/libopencv_videoio.4.3.dylib (0x13021d0c8). One of the two will be used. Which one is undefined.
+```
+This is an **open issue** which needs to be solved. In a few words, this is an "interference" between the OpenCV libs of the installed virtual python environment and the OpenCV libs installed by homebrew.  
+
+
+### Issues found with boost serialization 
+
+On my mac, boost deserialization is very slow. On the other hand, under linux, it is very fast.
+
+<!-- ### Issues found with dynamic matlplotlib 
 
 **NEWS**: Under mac, the old classes `Mplot2d` and `Mplot3d` (based on `matplotlib`) are automatically replaced by `Qplot2d` and `Qplot3d` (based on `pyqtgraph`), which do not present the problems reported below. 
 
@@ -88,12 +98,5 @@ $ OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES python3 xxx.py
 ```
 
 I found other issues with matplotlib due to `plt.ion()` (interactive mode) that does not work on mac. In order to make the matplotlib processes working, I had to apply some other tricks that make the matplot figures being refreshed in an inelegant way (being activated and refreshed in turn one over the other). But it works! :-)   
-At the present time, `pyslam` is still experimental on macOS! 
+At the present time, `pyslam` is still experimental on macOS!  -->
 
-### Issues found with OpenCV and pyenv 
-
-When you launch one of the scripts above, you get a warning: 
-```bash
-objc[6169]: Class CaptureDelegate is implemented in both /Users/luigi/.python/venvs/pyslam/lib/python3.7/site-packages/cv2/cv2.cpython-37m-darwin.so (0x11923d590) and /usr/local/opt/opencv/lib/libopencv_videoio.4.3.dylib (0x13021d0c8). One of the two will be used. Which one is undefined.
-```
-This is an **open issue** which needs to be solved. In a few words, this is an "interference" between the OpenCV libs of the installed virtual python environment and the OpenCV libs installed by homebrew.  
