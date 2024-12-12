@@ -1,9 +1,9 @@
 # Architecture
 
-Here are a couple of sketches intended to provide an overview of the main classes' architecture. [WIP] 
+Here you can find a couple of diagram sketches that provide an overview of the main system components, and classes relationships and dependencies. **[WIP]** 
 
 ---
-## SLAM 
+## SLAM System
 
 <p align="center">
 <img src="./images/slam_architecture.png" alt="SLAM"  /> 
